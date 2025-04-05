@@ -102,6 +102,8 @@ private:
 				}
 			}
 
+			flushmessage();
+
 		}
 		return;
 	}
