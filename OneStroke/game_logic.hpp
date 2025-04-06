@@ -5,9 +5,6 @@ namespace game {
 
 bool game_loop_flag = true;
 
-bool game_hint_signal = false;
-bool game_reset_signal = false;
-
 void switch_to_menu();
 void switch_to_game();
 
@@ -143,10 +140,11 @@ public:
 	{}
 };
 
+void reset_game_interface();
 class ResetButton : public Button {
 protected:
 	void _when_click() override {
-		game_reset_signal = true;
+		reset_game_interface();
 		this->_reset_click();
 		return;
 	}
@@ -164,10 +162,11 @@ public:
 	ResumeButton() : Button({240,680},{60,30},LIGHTCYAN,__T("RESUME")) {}
 };
 
+void show_hint();
 class HintButton : public Button {
 protected:
 	void _when_click() override {
-		game_hint_signal = true;
+		show_hint();
 		this->_reset_click();
 		return;
 	}
@@ -241,6 +240,7 @@ private:
 	}
 
 public:
+	bool game_hint_signal;
 	std::deque< std::shared_ptr<Button> > _button_deque;
 
 	void execute() override {
@@ -269,8 +269,6 @@ public:
 			bptr->_judge_click(x,y,c);
 			bptr->_draw_this();
 		}
-
-		if(game_reset_signal) reSet();
 
 		if(game_hint_signal) {
 			auto _last_paint = _solution[0];
@@ -308,7 +306,6 @@ public:
 		_last_pos = {-1,-1};
 		_current_node_num = 0;
 		game_hint_signal = false;
-		game_reset_signal = false;
 		return;
 	}
 
@@ -319,7 +316,7 @@ public:
 		_level = randint(RandE);
 
 		// DEBUG
-		//_level = 5;
+		//_level = 10;
 
 		_solution.clear();
 		_grid.clear();
@@ -388,6 +385,16 @@ void switch_to_game() {
 	game_interface_logic->reSet();
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(200));
+	return;
+}
+
+void reset_game_interface() {
+	game_interface_logic->reSet();
+	return;
+}
+
+void show_hint() {
+	game_interface_logic->game_hint_signal = true;
 	return;
 }
 

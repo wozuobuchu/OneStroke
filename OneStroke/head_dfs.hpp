@@ -71,7 +71,7 @@ public:
     std::pair<int, int> _end;
     std::pair<int, int> _size;
 
-	DfsHamiltonPath() = delete;
+    DfsHamiltonPath() = delete;
     DfsHamiltonPath(const DfsHamiltonPath&) = delete;
     DfsHamiltonPath& operator=(const DfsHamiltonPath&) = delete;
 
@@ -95,7 +95,7 @@ public:
 
     }
 
-	~DfsHamiltonPath(){}
+    ~DfsHamiltonPath(){}
 
     bool isAnsFind() const {
         return _find_ans;
