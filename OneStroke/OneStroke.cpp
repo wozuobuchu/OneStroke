@@ -35,7 +35,7 @@ static void __game__init() {
 	return;
 }
 
-static void __game_loop() {
+static void __game__loop() {
 	fps_func::FPS_Limiter _fps_limiter(240.0);
 	BeginBatchDraw();
 	while(game::game_loop_flag) {
@@ -53,7 +53,7 @@ int main() {
 
 	__game__init();
 
-	__game_loop();
+	__game__loop();
 
 	std::wcout<<" [ DEBUG ] EasyX Ver : "<<std::wstring(GetEasyXVer())<<"  \n";
 

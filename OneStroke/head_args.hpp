@@ -11,6 +11,4 @@ constexpr int BASE_POINT_Y = 50;
 
 constexpr int BUTTON_GAP = 100;
 
-constexpr int TOTAL_LEVELS = 10;
-
 #endif // !_HEAD_ARGS_HPP

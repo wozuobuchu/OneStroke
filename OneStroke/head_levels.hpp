@@ -15,75 +15,89 @@ public:
 	{}
 };
 
-std::unordered_map<int,OriginGrid> levels_umap{
-	{1, OriginGrid({0,0},{4,1},std::vector<std::vector<char>>{
+std::vector<OriginGrid> levels_umap{
+	OriginGrid({0,0},{4,1},std::vector<std::vector<char>>{
 		{0, 0, 1, 1, 1},
 		{1, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0},
 		{0, 0, 0, 1, 0},
 		{0, 0, 0, 0, 0}
-	})},
-	{2, OriginGrid({0,0},{2,0},std::vector<std::vector<char>>{
-		{0, 0, 1, 1, 1},
-		{1, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0}
-	})},
-	{3, OriginGrid({0,0},{4,1},std::vector<std::vector<char>>{
-		{0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 1, 1, 0},
-		{0, 0, 0, 1, 1, 0},
-		{0, 0, 0, 0, 0, 0}
-	})},
-	{4, OriginGrid({0,0},{4,3},std::vector<std::vector<char>>{
+	}),
+	OriginGrid({0,0},{2,0},std::vector<std::vector<char>>{
+		{0,0,1,1,1},
+		{1,0,0,0,0},
+		{0,0,0,0,0}
+	}),
+	OriginGrid({0,0},{4,1},std::vector<std::vector<char>>{
+		{0,0,0,0,0,0},
+		{0,0,0,0,0,0},
+		{0,0,0,1,1,0},
+		{0,0,0,1,1,0},
+		{0,0,0,0,0,0}
+	}),
+	OriginGrid({0,0},{4,3},std::vector<std::vector<char>>{
 		{0, 0, 1, 0, 0},
 		{1, 0, 1, 0, 0},
 		{1, 0, 0, 0, 0},
 		{0, 0, 0, 1, 0},
 		{0, 0, 0, 0, 0}
-	})},
-	{5, OriginGrid({0,0},{4,4},std::vector<std::vector<char>>{
+	}),
+	OriginGrid({0,0},{4,4},std::vector<std::vector<char>>{
 		{0, 0, 0, 0, 0, 1},
 		{0, 0, 0, 0, 0, 0},
 		{0, 0, 1, 1, 1, 0},
 		{0, 0, 1, 1, 1, 0},
 		{0, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0}
-	})},
-	{6, OriginGrid({1,4},{3,5},std::vector<std::vector<char>>{
+	}),
+	OriginGrid({1,4},{3,5},std::vector<std::vector<char>>{
 		{0, 0, 0, 0, 0, 1},
 		{0, 0, 0, 0, 0, 1},
 		{0, 0, 1, 0, 1, 1},
 		{0, 0, 1, 0, 1, 0},
 		{0, 0, 0, 0, 1, 0},
 		{0, 0, 0, 0, 0, 0}
-	})},
-	{7, OriginGrid({0,0},{3,0},std::vector<std::vector<char>>{
+	}),
+	OriginGrid({0,0},{3,0},std::vector<std::vector<char>>{
 		{0, 0, 1, 0, 0},
 		{1, 0, 0, 0, 0},
 		{1, 0, 0, 1, 0},
 		{0, 0, 0, 1, 0},
 		{0, 0, 0, 0, 0}
-	})},
-	{8, OriginGrid({0,0},{2,0},std::vector<std::vector<char>>{
+	}),
+	OriginGrid({0,0},{2,0},std::vector<std::vector<char>>{
 		{0, 0, 0, 1, 1},
 		{1, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0}
-	})},
-	{9, OriginGrid({0,0},{1,1},std::vector<std::vector<char>>{
+	}),
+	OriginGrid({0,0},{1,1},std::vector<std::vector<char>>{
 		{0, 0, 0, 1, 1},
 		{0, 0, 0, 0, 0},
 		{0, 1, 0, 0, 0},
 		{0, 0, 0, 0, 0}
-	})},
-	{10, OriginGrid({0,0},{0,2},std::vector<std::vector<char>>{
+	}),
+	OriginGrid({0,0},{0,2},std::vector<std::vector<char>>{
 		{0, 0, 0, 1, 1},
 		{0, 0, 0, 0, 0},
 		{0, 1, 0, 0, 0},
 		{0, 1, 0, 0, 0},
 		{0, 0, 0, 0, 0}
-	})},
+	}),
+	OriginGrid({0,4},{0,3},std::vector<std::vector<char>>{
+		{0, 0, 0, 0, 0},
+		{0, 1, 0, 0, 0},
+		{0, 1, 0, 0, 0},
+		{0, 1, 0, 0, 0},
+		{0, 0, 0, 0, 0}
+	}),
+	OriginGrid({0,1},{1,4},std::vector<std::vector<char>>{
+		{0, 0, 0, 0, 0},
+		{0, 1, 0, 0, 0},
+		{0, 1, 1, 0, 0},
+		{0, 1, 0, 0, 0},
+		{0, 0, 0, 0, 0}
+	})
 };
 
 }

@@ -287,7 +287,7 @@ public:
 		}
 
 		if(_current_node_num>=_total_node_num && _last_pos==_end) {
-			MessageBox(NULL, __T("恭喜过关！"), __T("提示"), MB_OK | MB_ICONASTERISK);
+			MessageBox(NULL, __T("Clearance！"), __T("Info"), MB_OK | MB_ICONASTERISK);
 			game::switch_to_menu();
 		}
 
@@ -311,12 +311,12 @@ public:
 
 	void reGenerate() {
 		std::mt19937 RandE(std::random_device{}());
-		std::uniform_int_distribution<int> randint(1,TOTAL_LEVELS);
+		std::uniform_int_distribution<int> randint(0, levels::levels_umap.size()-1);
 		int _level = 1;
 		_level = randint(RandE);
 
 		// DEBUG
-		//_level = 10;
+		//_level = 11;
 
 		_solution.clear();
 		_grid.clear();
@@ -326,6 +326,11 @@ public:
 			levels::levels_umap[_level]._grid
 		);
 		_solution = _dfs.getSolution();
+		if(!_solution.size()) {
+			MessageBox(NULL, __T("Unsolvable Level！"), __T("Warn"), MB_OK | MB_ICONERROR);
+			exit(1);
+		}
+
 		_start = _dfs._start;
 		_end = _dfs._end;
 		_size = _dfs._size;
@@ -355,7 +360,7 @@ public:
 		return;
 	}
 
-	GameInterfaceLogic() : _current_node_num(0), _total_node_num(0) {
+	GameInterfaceLogic() : _current_node_num(0), _total_node_num(0), game_hint_signal(false) {
 		_button_deque.push_front(std::static_pointer_cast<Button>(std::make_shared<ResumeButton>()));
 		_button_deque.push_front(std::static_pointer_cast<Button>(std::make_shared<ResetButton>()));
 		_button_deque.push_front(std::static_pointer_cast<Button>(std::make_shared<HintButton>()));
