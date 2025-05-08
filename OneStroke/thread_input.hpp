@@ -5,60 +5,42 @@
 
 namespace device {
 
-class DeviceMonitorThread {
-public:
-	DeviceMonitorThread() : _break_flag(false){}
-	virtual ~DeviceMonitorThread(){}
-protected:
-	const int _flush_elapsed_time = 100;
-
-	std::condition_variable _cv;
-	std::mutex mtx__break_flag;
-	bool _break_flag;
-
-	std::thread _monit_task_thread;
-	virtual void _monit_task() = 0;
-
-	bool stopCheck() {
-        std::unique_lock<std::mutex> ulck(this->mtx__break_flag);
-		return _cv.wait_for(ulck,std::chrono::microseconds(_flush_elapsed_time),[this](){return this->_break_flag;});
-	}
-
-    void stopThread() {
-        {
-            std::unique_lock<std::mutex> ulck(this->mtx__break_flag);
-            this->_break_flag = true;
-        }
-		_cv.notify_all();
-        if (_monit_task_thread.joinable()) _monit_task_thread.join();
+class MouseMonitorThread final {
+private:
+	std::shared_mutex smtx__mouse_state;
+	std::pair<int,int> _mouse_pos;
+	std::tuple<int,int,int> _mouse_button;
+	std::jthread _monit_task_jthread;
+	void _monit_task(std::stop_token st) {
+		POINT pt;
+		while(!st.stop_requested()) {
+			// update mouse state
+			if(GetCursorPos(&pt)) {
+				HWND hWnd = WindowFromPoint(pt);
+				if(hWnd) {
+					ScreenToClient(hWnd, &pt);
+					std::unique_lock<std::shared_mutex> lck(this->smtx__mouse_state);
+					_mouse_pos = {pt.x, pt.y};
+					_mouse_button = { (GetAsyncKeyState(VK_LBUTTON) & 0x8000), 0, 0 };
+				}
+			}
+		}
 		return;
-    }
-};
-
-class MouseMonitorThread final : public DeviceMonitorThread {
+	}
 public:
-	MouseMonitorThread() : DeviceMonitorThread() {
+	MouseMonitorThread() {
 		this->_mouse_pos = {0, 0};
 		this->_mouse_button = {0, 0, 0};
-		this->_monit_task_thread = std::thread(std::bind(&MouseMonitorThread::_monit_task, this));
+		this->_monit_task_jthread = std::jthread(std::bind(&MouseMonitorThread::_monit_task, this, std::placeholders::_1));
 	}
-	~MouseMonitorThread() override {
-		this->stopThread();
-
-		#ifdef DEBUG
-		std::cout<<" [ DEBUG ] MouseMonitor _monit_tsak_thread JOINED \n"<<std::endl;
-		#endif // DEBUG
-	}
+	~MouseMonitorThread() { this->_monit_task_jthread.request_stop(); }
 
 	std::pair<int,int> getMousePosition() {
-
 		std::pair<int,int> ret;
-
 		{
 			std::shared_lock<std::shared_mutex> lck(this->smtx__mouse_state);
 			ret = _mouse_pos;
 		}
-
 		return ret;
 	}
 	std::tuple<int,int,int> getMouseStateSimple() {
@@ -81,36 +63,6 @@ public:
 		}
 		return ret;
 	};
-
-private:
-	void _monit_task() override {
-		#ifdef DEBUG
-		std::cout<<" [ DEBUG ] MouseMonitorThread _monit_thread LAUNCH \n";
-		#endif // DEBUG
-		ExMessage msg;
-		while(true) {
-			// check if this class is destructed
-			if(this->stopCheck()) return;
-
-			// update mouse state
-			if( peekmessage(&msg,EX_MOUSE,true) ) {
-				
-				{
-					std::unique_lock<std::shared_mutex> lck(this->smtx__mouse_state);
-					this->_mouse_pos = {msg.x, msg.y};
-					this->_mouse_button = {msg.lbutton, msg.mbutton, msg.rbutton};
-				}
-			}
-
-			flushmessage();
-
-		}
-		return;
-	}
-
-	std::shared_mutex smtx__mouse_state;
-	std::pair<int,int> _mouse_pos;
-	std::tuple<int,int,int> _mouse_button;
 };
 
 }

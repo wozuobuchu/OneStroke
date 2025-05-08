@@ -119,7 +119,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <DisableSpecificWarnings>6031;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp23</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -138,6 +138,7 @@
     <ClInclude Include="head_args.hpp" />
     <ClInclude Include="game_logic.hpp" />
     <ClInclude Include="head_dfs.hpp" />
+    <ClInclude Include="head_fpslimit.hpp" />
     <ClInclude Include="head_levels.hpp" />
     <ClInclude Include="thread_input.hpp" />
   </ItemGroup>

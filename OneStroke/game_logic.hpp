@@ -311,7 +311,7 @@ public:
 
 	void reGenerate() {
 		std::mt19937 RandE(std::random_device{}());
-		std::uniform_int_distribution<int> randint(0, levels::levels_umap.size()-1);
+		std::uniform_int_distribution<int> randint(0, (int)levels::levels_umap.size()-1);
 		int _level = 1;
 		_level = randint(RandE);
 

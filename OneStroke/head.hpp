@@ -15,6 +15,7 @@
 
 #include <chrono>
 #include <thread>
+#include <stop_token>
 #include <mutex>
 #include <shared_mutex>
 #include <condition_variable>
@@ -28,6 +29,7 @@
 #include "thread_input.hpp"
 #include "head_levels.hpp"
 #include "game_logic.hpp"
+#include "head_fpslimit.hpp"
 
 
 #endif // !_HEAD_HPP
