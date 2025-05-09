@@ -17,7 +17,7 @@ public:
         end=std::chrono::high_resolution_clock::now();
         std::chrono::duration< double,std::ratio<1,1> > eplased(end-start);
         if(eplased<targetFrameTime) {
-            std::unique_lock<std::mutex> ulck;
+            std::unique_lock<std::mutex> ulck(_cv_mtx);
             _cv.wait_for(ulck,targetFrameTime-eplased,[](){return true;});
         }
         start=std::chrono::high_resolution_clock::now();
