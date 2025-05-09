@@ -229,8 +229,8 @@ private:
 		auto [last_x,last_y] = _last_pos;
 		auto [edge_x,edge_y] = _size;
         for(int i=0; i<4; ++i) {
-            std::pair<int,int> tar_pos{cur_x+_directs[i][0],cur_y+_directs[i][1]};
-            auto [tar_x,tar_y] = tar_pos;
+			std::pair<int,int> tar_pos{cur_x+_directs[i][0],cur_y+_directs[i][1]};
+			auto [tar_x,tar_y] = tar_pos;
 			if(!(0<=tar_x && tar_x<edge_x && 0<=tar_y && tar_y<edge_y)) continue;
 			if(_grid[tar_x][tar_y]==nullptr) continue;
 			if(last_x==tar_x&&last_y==tar_y) return true;
@@ -287,7 +287,7 @@ public:
 		}
 
 		if(_current_node_num>=_total_node_num && _last_pos==_end) {
-			MessageBox(NULL, __T("Clearance£¡"), __T("Info"), MB_OK | MB_ICONASTERISK);
+			MessageBox(NULL, __T("Clearance !"), __T("Info"), MB_OK | MB_ICONASTERISK);
 			game::switch_to_menu();
 		}
 
