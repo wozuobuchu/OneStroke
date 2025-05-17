@@ -228,13 +228,13 @@ private:
 
 		auto [last_x,last_y] = _last_pos;
 		auto [edge_x,edge_y] = _size;
-        for(int i=0; i<4; ++i) {
+		for(int i=0; i<4; ++i) {
 			std::pair<int,int> tar_pos{cur_x+_directs[i][0],cur_y+_directs[i][1]};
 			auto [tar_x,tar_y] = tar_pos;
 			if(!(0<=tar_x && tar_x<edge_x && 0<=tar_y && tar_y<edge_y)) continue;
 			if(_grid[tar_x][tar_y]==nullptr) continue;
 			if(last_x==tar_x&&last_y==tar_y) return true;
-        }
+		}
 
 		return false;
 	}
@@ -316,7 +316,7 @@ public:
 		_level = randint(RandE);
 
 		// DEBUG
-		//_level = 11;
+		//_level = levels::levels_umap.size()-1;
 
 		_solution.clear();
 		_grid.clear();
@@ -327,7 +327,7 @@ public:
 		);
 		_solution = _dfs.getSolution();
 		if(!_solution.size()) {
-			MessageBox(NULL, __T("Unsolvable Level£¡"), __T("Warn"), MB_OK | MB_ICONERROR);
+			MessageBox(NULL, __T("Unsolvable Level  "), __T("Warn"), MB_OK | MB_ICONERROR);
 			exit(1);
 		}
 
