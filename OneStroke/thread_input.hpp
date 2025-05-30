@@ -53,16 +53,7 @@ public:
 		}
 		return ret;
 	}
-	std::tuple<int,int,int,int, int> getMouseState() {
-		std::tuple<int,int,int,int,int> ret;
-		{
-			std::shared_lock<std::shared_mutex> lck(this->smtx__mouse_state);
-			auto [x,y] = _mouse_pos;
-			auto [l,m,r] = _mouse_button;
-			ret = {x,y,l,m,r};
-		}
-		return ret;
-	};
+
 };
 
 }

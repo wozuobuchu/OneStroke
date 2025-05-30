@@ -3,6 +3,7 @@
 static void __game__init() {
 	initgraph(WINDOW_WIDTH, WINDOW_HEIGH, EX_NOCLOSE | EX_NOMINIMIZE);
 	setbkcolor(LIGHTBLUE);
+	game::game_hwnd = GetHWnd();
 	game::switch_to_menu();
 	return;
 }

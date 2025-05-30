@@ -4,6 +4,7 @@
 namespace game {
 
 bool game_loop_flag = true;
+HWND game_hwnd = NULL;
 
 void switch_to_menu();
 void switch_to_game();
@@ -186,6 +187,7 @@ public:
 
 class MainMenuLogic final : public Logic{
 public:
+	std::shared_ptr<MainTitle> _main_title;
 	std::deque< std::shared_ptr<Button> > _button_deque;
 	void execute() override {
 		auto [x,y,c] = mouse_thread.getMouseStateSimple();
@@ -195,13 +197,14 @@ public:
 			bptr->_judge_click(x,y,c);
 			bptr->_draw_this();
 		}
+		_main_title->_draw_this();
 		return;
 	}
 
 	MainMenuLogic() {
 		_button_deque.push_front(std::static_pointer_cast<Button>(std::make_shared<ExitButton>()));
 		_button_deque.push_front(std::static_pointer_cast<Button>(std::make_shared<PlayButton>()));
-		_button_deque.push_front(std::static_pointer_cast<Button>(std::make_shared<MainTitle>()));
+		_main_title = std::make_shared<MainTitle>();
 	}
 };
 
@@ -217,7 +220,7 @@ private:
 	int _total_node_num;
 	int _current_node_num;
 
-	int _directs[4][2] = {{1,0},{0,1},{-1,0},{0,-1}};
+	static constexpr std::array<std::array<int,2>,4> _directs{ {{1,0},{0,1},{-1,0},{0,-1}} };
 	bool isClickValid(int cur_x, int cur_y) const {
 		auto [sx,sy] = _start;
 		auto [ex,ey] = _end;
@@ -248,12 +251,11 @@ public:
 			for(int j=0; j<n; ++j) {
 				if(_grid[i][j]==nullptr) continue;
 				if(_grid[i][j]->_judge_click(x,y,c)) {
-					if(isClickValid(i,j)){
+					if(isClickValid(i,j)) {
 						_grid[i][j]->_set_color(LIGHTGRAY);
 						_last_pos = {i,j};
 						++_current_node_num;
-					}
-					else{
+					} else {
 						_grid[i][j]->_reset_click();
 					}
 				}
@@ -285,7 +287,7 @@ public:
 		}
 
 		if(_current_node_num>=_total_node_num && _last_pos==_end) {
-			MessageBox(NULL, __T("Clearance !"), __T("Info"), MB_OK | MB_ICONASTERISK);
+			MessageBox(game::game_hwnd, __T("Clearance !"), __T("Info"), MB_OK | MB_ICONASTERISK | MB_TOPMOST);
 			game::switch_to_menu();
 		}
 
@@ -325,7 +327,7 @@ public:
 		);
 		_solution = _dfs.getSolution();
 		if(!_solution.size()) {
-			MessageBox(NULL, __T("Unsolvable Level  "), __T("Warn"), MB_OK | MB_ICONERROR);
+			MessageBox(game::game_hwnd, __T("Unsolvable Level  "), __T("Warn"), MB_OK | MB_ICONERROR | MB_TOPMOST);
 			exit(1);
 		}
 
@@ -346,8 +348,8 @@ public:
 				if(_origin_grid[i][j]==0) {
 					_grid[i][j].reset();
 					_grid[i][j] = std::make_shared<game::GameButton>(
-						std::make_pair(BASE_POINT_X+BUTTON_GAP*j,BASE_POINT_Y+BUTTON_GAP*i),
-						std::make_pair(i,j)
+						std::pair<int,int>{(BASE_POINT_X + BUTTON_GAP * j), (BASE_POINT_Y + BUTTON_GAP * i)},
+						std::pair<int,int>{i,j}
 					);
 					if(i==_start.first && j==_start.second) _grid[i][j]->_set_text(__T("S"));
 					else if(i==_end.first && j==_end.second) _grid[i][j]->_set_text(__T("E"));
