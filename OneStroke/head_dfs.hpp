@@ -15,14 +15,14 @@ private:
     std::vector<std::vector<bool>> _visited;
     std::deque<std::pair<int,int>> _path;
     std::deque<std::pair<int,int>> _path_copy;
-    
-    std::vector<std::vector<int>> _direction;
+
+    static constexpr std::array<std::array<int,2>,4> _direction{{{1,0},{0,1},{-1,0},{0,-1}}};
 
     int _node_num;
 
     bool _find_ans;
 
-    void dfs(int sx,int sy) {
+    void dfs(int sx, int sy) {
         auto lam_dfs = [this](auto&& lam_dfs, int cur_x, int cur_y, int step) -> void {
             if(_find_ans) return;
             // check edge
@@ -76,8 +76,7 @@ public:
     DfsHamiltonPath& operator=(const DfsHamiltonPath&) = delete;
 
     template <typename MatrixT>
-    explicit DfsHamiltonPath(std::pair<int,int> start, std::pair<int,int> end, MatrixT&& graph) : 
-        _direction(std::vector<std::vector<int>>{{1,0},{0,1},{-1,0},{0,-1}}),
+    explicit DfsHamiltonPath(std::pair<int,int> start, std::pair<int,int> end, MatrixT&& graph) :
         _find_ans(false),
         _start(start),
         _end(end),
@@ -94,8 +93,6 @@ public:
         dfs(sx,sy);
 
     }
-
-    ~DfsHamiltonPath(){}
 
     bool isAnsFind() const {
         return _find_ans;
