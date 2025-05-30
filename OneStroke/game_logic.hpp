@@ -99,7 +99,6 @@ public:
 class PlayButton : public Button {
 protected:
 	void _when_click() override {
-		std::cout<<" [ DEBUG ] PLAY_BUTTON CLICK "<<std::endl;
 		switch_to_game();
 		return;
 	}
@@ -110,7 +109,6 @@ public:
 class ExitButton : public Button {
 protected:
 	void _when_click() override {
-		std::cout<<" [ DEBUG ] EXIT_BUTTON CLICK "<<std::endl;
 		game_loop_flag = false;
 		return;
 	}

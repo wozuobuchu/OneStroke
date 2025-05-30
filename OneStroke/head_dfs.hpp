@@ -22,48 +22,48 @@ private:
 
     bool _find_ans;
 
-    void dfs(int cur_x,int cur_y,int step) {
-        if(_find_ans) return;
-
-        // check edge
-        auto [edge_x,edge_y] = _size;
-        if(!(0<=cur_x && cur_x<edge_x && 0<=cur_y && cur_y<edge_y)) return;
-
-        // check visited
-        if(_visited[cur_x][cur_y]) return;
-        _visited[cur_x][cur_y] = true;
-
-        // check end
-        auto [end_x,end_y] = _end;
-        if(cur_x==end_x && cur_y==end_y && step>=_node_num) {
-            _find_ans = true;
-            _path_copy.assign(_path.begin(),_path.end());
-            return;
-        }
-
-        // trim branch
-        int manhattan = abs(cur_x - end_x) + abs(cur_y - end_y);
-        int remain = _node_num - step;
-        if ((remain - manhattan) % 2 != 0) {
-            _visited[cur_x][cur_y] = false;
-            return;
-        }
-
-        for(int i=0; i<4; ++i) {
-            std::pair<int,int> tar_pos{cur_x+_direction[i][0],cur_y+_direction[i][1]};
-            auto [tar_x,tar_y] = tar_pos;
-
+    void dfs(int sx,int sy) {
+        auto lam_dfs = [this](auto&& lam_dfs, int cur_x, int cur_y, int step) -> void {
             if(_find_ans) return;
-            if(!(0<=tar_x && tar_x<edge_x && 0<=tar_y && tar_y<edge_y)) continue;
-            if(_matrix[tar_x][tar_y]) continue;
-            if(_visited[tar_x][tar_y]) continue;
+            // check edge
+            auto [edge_x, edge_y] = _size;
+            if(!(0<=cur_x && cur_x<edge_x && 0<=cur_y && cur_y<edge_y)) return;
+            // check visited
+            if(_visited[cur_x][cur_y]) return;
+            _visited[cur_x][cur_y] = true;
+            // check end
+            auto [end_x,end_y] = _end;
+            if(cur_x==end_x && cur_y==end_y && step>=_node_num) {
+                _find_ans = true;
+                _path_copy.assign(_path.begin(),_path.end());
+                return;
+            }
+            // trim branch
+            int manhattan = abs(cur_x - end_x) + abs(cur_y - end_y);
+            int remain = _node_num - step;
+            if ((remain - manhattan) % 2 != 0) {
+                _visited[cur_x][cur_y] = false;
+                return;
+            }
+            // search nearby
+            for(int i=0; i<4; ++i) {
+                std::pair<int,int> tar_pos{cur_x+_direction[i][0], cur_y+_direction[i][1]};
+                auto [tar_x,tar_y] = tar_pos;
 
-            _path.push_back({tar_x, tar_y});
-            dfs(tar_x, tar_y, step+1);
-            _path.pop_back();
-        }
-        
-        _visited[cur_x][cur_y] = false;
+                if(_find_ans) return;
+                if(!(0<=tar_x && tar_x<edge_x && 0<=tar_y && tar_y<edge_y)) continue;
+                if(_matrix[tar_x][tar_y]) continue;
+                if(_visited[tar_x][tar_y]) continue;
+
+                _path.push_back({tar_x, tar_y});
+                lam_dfs(lam_dfs, tar_x, tar_y, step+1);
+                _path.pop_back();
+            }
+            _visited[cur_x][cur_y] = false;
+        };
+
+        lam_dfs(lam_dfs,sx,sy,1);
+
         return;
     }
 public:
@@ -91,7 +91,7 @@ public:
 
         auto [sx,sy] = _start;
         _path.push_front(_start);
-        dfs(sx,sy,1);
+        dfs(sx,sy);
 
     }
 
@@ -99,16 +99,6 @@ public:
 
     bool isAnsFind() const {
         return _find_ans;
-    }
-
-    void printPath() const {
-        int cnt = 0;
-        for(auto& it : _path_copy) {
-            ++cnt;
-            std::cout<<" [ PATH_NODE ] ( "<<it.first<<" , "<<it.second<<" ) "<<std::endl;
-        }
-        std::cout<<" [ PATH_COUNT ] "<<cnt<<std::endl;
-        return;
     }
 
     int getNodeNum() const { return this->_node_num; }

@@ -1,7 +1,6 @@
 #ifndef _HEAD_HPP
 #define _HEAD_HPP
 
-#include <iostream>
 #include <vector>
 #include <map>
 #include <unordered_map>

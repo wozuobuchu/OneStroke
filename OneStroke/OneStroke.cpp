@@ -20,9 +20,8 @@ static void __game__loop() {
 	return;
 }
 
-int main() {
+int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow) {
 	__game__init();
 	__game__loop();
-	std::wcout<<L" [ DEBUG ] Main Thread Joined. "<<std::endl;
-    return 0;
+	return 0;
 }
