@@ -1,5 +1,9 @@
 # OneStroke
-## C++20 EasyX MiniGame
+## Pure C++20 EasyX MiniGame
+
+<img src="./img/demo/demo01.png" alt="local_pic_01" width="400"> <br>
+<img src="./img/demo/demo02.png" alt="local_pic_02" width="400"> <br>
+
 ### How To Play
 Click "Play" to start a random level. <br>
 You need to draw a continuous path from the start (s) point to the end (e) point. <br>
