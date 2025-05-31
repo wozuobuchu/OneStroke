@@ -123,7 +123,7 @@ protected:
 		return;
 	}
 public:
-	MainTitle() : Button({280,200},{160,80},LIGHTMAGENTA,__T("ONE STROKE")){}
+	MainTitle() : Button({300,150},{260,130},LIGHTBLUE,__T("ONE STROKE")){}
 };
 
 class GameButton : public Button {
