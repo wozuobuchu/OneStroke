@@ -325,7 +325,8 @@ public:
 			levels::levels_umap[_level]._end,
 			levels::levels_umap[_level]._grid
 		);
-		_solution = _dfs.getSolution();
+		const std::deque<std::pair<int, int>>& sol = _dfs.getSolution();
+		_solution.assign(sol.begin(),sol.end());
 		if(!_solution.size()) {
 			MessageBox(game::game_hwnd, __T("Unsolvable Level  "), __T("Warn"), MB_OK | MB_ICONERROR | MB_TOPMOST);
 			exit(1);
@@ -339,7 +340,7 @@ public:
 		_current_node_num = 0;
 		_last_pos = {-1,-1};
 
-		auto _origin_grid = _dfs.getOriginGrid();
+		const std::vector<std::vector<char>>& _origin_grid = _dfs.getOriginGrid();
 		auto [m,n] = _size;
 		
 		_grid.resize(m,std::vector<std::shared_ptr<game::GameButton>>(n,std::shared_ptr<game::GameButton>()));

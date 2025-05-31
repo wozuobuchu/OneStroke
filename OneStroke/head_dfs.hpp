@@ -23,6 +23,7 @@ private:
     bool _find_ans;
 
     void dfs(int sx, int sy) {
+        if (_matrix[_start.first][_start.second] || _matrix[_end.first][_end.second]) return;
         auto lam_dfs = [this](auto&& lam_dfs, int cur_x, int cur_y, int step) -> void {
             if(_find_ans) return;
             // check edge
@@ -41,7 +42,7 @@ private:
             // trim branch
             int manhattan = abs(cur_x - end_x) + abs(cur_y - end_y);
             int remain = _node_num - step;
-            if ((remain - manhattan) % 2 != 0) {
+            if ( (remain<manhattan) || ((remain-manhattan)&1) ) {
                 _visited[cur_x][cur_y] = false;
                 return;
             }
@@ -60,10 +61,9 @@ private:
                 _path.pop_back();
             }
             _visited[cur_x][cur_y] = false;
+            return;
         };
-
         lam_dfs(lam_dfs,sx,sy,1);
-
         return;
     }
 public:
@@ -94,15 +94,13 @@ public:
 
     }
 
-    bool isAnsFind() const {
-        return _find_ans;
-    }
+    bool isAnsFind() const { return this->_find_ans; }
 
     int getNodeNum() const { return this->_node_num; }
 
-    std::deque<std::pair<int,int>> getSolution(){ return this->_path_copy; }
+    const std::deque<std::pair<int,int>>& getSolution() const { return this->_path_copy; }
 
-    std::vector<std::vector<char>> getOriginGrid() { return this->_matrix; }
+    const std::vector<std::vector<char>>& getOriginGrid() const { return this->_matrix; }
 
 };
 
