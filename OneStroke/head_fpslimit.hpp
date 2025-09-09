@@ -1,4 +1,7 @@
 #ifndef _HEAD_FPSLIMIT_HPP
+#define _HEAD_FPSLIMIT_HPP
+#include <chrono>
+#include <thread>
 namespace fps_func {
 class FPS_Limiter {
 private:
@@ -20,5 +23,4 @@ public:
     }
 };
 }
-#define _HEAD_FPSLIMIT_HPP
 #endif
