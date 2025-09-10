@@ -1,5 +1,5 @@
-#ifndef _HEAD_FPSLIMIT_HPP
-#define _HEAD_FPSLIMIT_HPP
+#ifndef _HEAD_FPSLIMIT_HPP_
+#define _HEAD_FPSLIMIT_HPP_
 
 #include <chrono>
 #include <thread>
