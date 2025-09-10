@@ -1,5 +1,6 @@
 #ifndef _HEAD_FPSLIMIT_HPP
 #define _HEAD_FPSLIMIT_HPP
+
 #include <chrono>
 #include <thread>
 
